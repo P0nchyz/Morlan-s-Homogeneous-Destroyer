@@ -61,17 +61,31 @@ const expString = (number) => {
     return ''
   } else if (number == 1) {
     return 'e^{x}'
+  } else if (number == -1) {
+    return 'e^{-x}'
   } else {
     return `e^{${number}x}`
   }
 }
 
 const cplxToCos = (cplx) => {
-  return expString(cplx.real) + `\\cos{${cplx.imaginary}x}`
+  let scalar = cplx.imaginary
+  if (scalar == 1) {
+    scalar = ''
+  } else if (scalar == -1) {
+    scalar = '-'
+  }
+  return expString(cplx.real) + `\\cos{${cplx.imaginary == 1 ? '' : cplx.imaginary}x}`
 }
 
 const cplxToSin = (cplx) => {
-  return expString(cplx.real) + `\\sin{${cplx.imaginary}x}`
+  let scalar = cplx.imaginary
+  if (scalar == 1) {
+    scalar = ''
+  } else if (scalar == -1) {
+    scalar = '-'
+  }
+  return expString(cplx.real) + `\\sin{${scalar}x}`
 }
 
 export { getCharEquations, getRoots }
