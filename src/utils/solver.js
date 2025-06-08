@@ -6,27 +6,19 @@ const getCharEquations = (coefficients) => {
 
   coefficients = coefficients.map((e) => (e === '' ? 1 : e))
   const roots = getRoots(coefficients)
-  console.log(roots);
-  
 
   if (!roots.isComplex) {
-    let trimmedRoots = roots.roots.map(num => Number(num.toFixed(decimals)))
+    let trimmedRoots = roots.roots.map((num) => Number(num.toFixed(decimals)))
     return [
-      roots.roots[0] == 0 ? '' : `e^{${trimmedRoots[0]}x}`,
-      roots.roots.length == 2
-        ? `e^{${trimmedRoots[1]}x}`
-        : trimmedRoots[0] == 0
-          ? 'x'
-          : `xe^{${trimmedRoots[0]}x}`,
+      expString(trimmedRoots[0]),
+      trimmedRoots.length == 2 ? expString(trimmedRoots[1]) : 'x' + expString(trimmedRoots[0]),
     ]
   } else {
-    let trimmedRoots = roots.roots.map((cplx) => {
-      return {
-        real: Number(cplx.real.toFixed(decimals)),
-        imaginary: Number(cplx.imaginary.toFixed(decimals)),
-      }
-    })
-    return [`\\cos{${trimmedRoots[0].real}x}`, `\\sin{${trimmedRoots[0].imaginary}x}`]
+    let trimmedRoot = {
+      real: Number(roots.roots[0].real.toFixed(decimals)),
+      imaginary: Number(roots.roots[0].imaginary.toFixed(decimals)),
+    }
+    return [cplxToCos(trimmedRoot), cplxToSin(trimmedRoot)]
   }
 }
 
@@ -40,11 +32,11 @@ const getRoots = (coefficients) => {
     isComplex: false,
     roots: [],
   }
-  
+
   if (a === 0) {
-	returnRoots.isComplex = false;
-	returnRoots.roots[0] = -c / b;
-	return returnRoots;
+    returnRoots.isComplex = false
+    returnRoots.roots[0] = -c / b
+    return returnRoots
   }
 
   if (discriminant > 0) {
@@ -62,6 +54,24 @@ const getRoots = (coefficients) => {
     }
   }
   return returnRoots
+}
+
+const expString = (number) => {
+  if (number == 0) {
+    return ''
+  } else if (number == 1) {
+    return 'e^{x}'
+  } else {
+    return `e^{${number}x}`
+  }
+}
+
+const cplxToCos = (cplx) => {
+  return expString(cplx.real) + `\\cos{${cplx.imaginary}x}`
+}
+
+const cplxToSin = (cplx) => {
+  return expString(cplx.real) + `\\sin{${cplx.imaginary}x}`
 }
 
 export { getCharEquations, getRoots }
