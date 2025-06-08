@@ -2,9 +2,7 @@
 import { usePreferences } from '@/utils/usePreferences';
 import InputCoefficient from './InputCoefficient.vue';
 import Latex from './Latex.vue';
-import { getNotation } from '@/utils/derivative';
-
-const {notation} = usePreferences();
+const {getNotation, notation} = usePreferences();
 
 const coefficients = defineModel();
 </script>

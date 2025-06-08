@@ -1,21 +1,36 @@
-function getCharEquations(coefficients) {
+import { usePreferences } from './usePreferences'
+
+const getCharEquations = (coefficients) => {
+  const { decimalPlaces } = usePreferences()
+  const decimals = decimalPlaces.value
+
   coefficients = coefficients.map((e) => (e === '' ? 1 : e))
   const roots = getRoots(coefficients)
+  console.log(roots);
+  
+
   if (!roots.isComplex) {
+    let trimmedRoots = roots.roots.map(num => Number(num.toFixed(decimals)))
     return [
-      roots.roots[0] == 0 ? '' : `e^{${roots.roots[0]}x}`,
+      roots.roots[0] == 0 ? '' : `e^{${trimmedRoots[0]}x}`,
       roots.roots.length == 2
-        ? `e^{${roots.roots[1]}x}`
-        : roots.roots[0] == 0
+        ? `e^{${trimmedRoots[1]}x}`
+        : trimmedRoots[0] == 0
           ? 'x'
-          : `xe^{${roots.roots[0]}x}`,
+          : `xe^{${trimmedRoots[0]}x}`,
     ]
   } else {
-    return [`\\cos{${roots.roots[0].real}x}`, `\\sin{${roots.roots[0].imaginary}x}`]
+    let trimmedRoots = roots.roots.map((cplx) => {
+      return {
+        real: Number(cplx.real.toFixed(decimals)),
+        imaginary: Number(cplx.imaginary.toFixed(decimals)),
+      }
+    })
+    return [`\\cos{${trimmedRoots[0].real}x}`, `\\sin{${trimmedRoots[0].imaginary}x}`]
   }
 }
 
-function getRoots(coefficients) {
+const getRoots = (coefficients) => {
   let a = coefficients[0],
     b = coefficients[1],
     c = coefficients[2]
@@ -24,6 +39,12 @@ function getRoots(coefficients) {
   let returnRoots = {
     isComplex: false,
     roots: [],
+  }
+  
+  if (a === 0) {
+	returnRoots.isComplex = false;
+	returnRoots.roots[0] = -c / b;
+	return returnRoots;
   }
 
   if (discriminant > 0) {
