@@ -7,6 +7,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/Morlan-s-Homogeneous-Destroyer/',
   plugins: [
     vue(),
     vueDevTools(),
