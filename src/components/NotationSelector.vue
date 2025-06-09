@@ -9,7 +9,7 @@ const selected = ref(false);
 </script>
 
 <template>
-  <button v-if="!selected" @click="selected = true" class="w-12 bg-onyx hover:bg-black hover:cursor-pointer text-white p-3 rounded-full aspect-square">
+  <button v-if="!selected" @click="selected = true" class="w-12 bg-onyx hover:brightness-140 active:bg-black hover:cursor-pointer text-white p-3 rounded-full aspect-square">
     <Latex :math="getNotation(notation, 1)"/>
   </button>
   <div v-else class="flex flex-col items-center gap-4 text-gray-600">
@@ -22,7 +22,7 @@ const selected = ref(false);
     <button @click="updatePreference('notation', 'newton'); selected = false" class="hover:cursor-pointer hover:text-black">
       <Latex :math="getNotation('newton', 1)"/>
     </button>
-    <div @click="selected = false" class="w-12 bg-onyx hover:bg-black hover:cursor-pointer text-white rounded-full aspect-square"></div>
+    <div @click="selected = false" class="w-12 bg-onyx hover:brightness-140 active:bg-black hover:cursor-pointer text-white rounded-full aspect-square"></div>
   </div>
 </template>
 
