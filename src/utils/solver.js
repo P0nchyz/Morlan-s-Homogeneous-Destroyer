@@ -1,28 +1,27 @@
 import { usePreferences } from './usePreferences'
 
-const getCharEquations = (coefficients) => {
-  const { decimalPlaces } = usePreferences()
-  const decimals = decimalPlaces.value
+const getCharacteristicEquation = (coefficients) => {
+  coefficients = formatCoefficients(coefficients)
+  return `${coefficients[2]}r^2 + ${coefficients[1]}r + ${coefficients[0]} = 0`
+}
 
-  coefficients = coefficients.map((e) => (e === '' ? 1 : e))
+const getLinearSolutions = (coefficients) => {
+  coefficients = formatCoefficients(coefficients)
   const roots = getRoots(coefficients)
+  const trimmedRoots = trimRoots(roots)
 
   if (!roots.isComplex) {
-    let trimmedRoots = roots.roots.map((num) => Number(num.toFixed(decimals)))
     return [
       expString(trimmedRoots[0]),
       trimmedRoots.length == 2 ? expString(trimmedRoots[1]) : 'x' + expString(trimmedRoots[0]),
     ]
   } else {
-    let trimmedRoot = {
-      real: Number(roots.roots[0].real.toFixed(decimals)),
-      imaginary: Number(roots.roots[0].imaginary.toFixed(decimals)),
-    }
-    return [cplxToCos(trimmedRoot), cplxToSin(trimmedRoot)]
+    return [cplxToCos(trimmedRoots), cplxToSin(trimmedRoots)]
   }
 }
 
 const getRoots = (coefficients) => {
+  coefficients = formatCoefficients(coefficients)
   let a = coefficients[0],
     b = coefficients[1],
     c = coefficients[2]
@@ -41,51 +40,60 @@ const getRoots = (coefficients) => {
 
   if (discriminant > 0) {
     returnRoots.isComplex = false
-    returnRoots.roots[0] = ((-b + Math.sqrt(discriminant)) / 2) * a
-    returnRoots.roots[1] = ((-b - Math.sqrt(discriminant)) / 2) * a
+    returnRoots.roots[0] = (-b + Math.sqrt(discriminant)) / (2 * a)
+    returnRoots.roots[1] = (-b - Math.sqrt(discriminant)) / (2 * a)
   } else if (discriminant == 0) {
     returnRoots.isComplex = false
-    returnRoots.roots[0] = (-b / 2) * a
+    returnRoots.roots[0] = -b / (2 * a)
   } else {
     returnRoots.isComplex = true
     returnRoots.roots[0] = {
-      real: (-b / 2) * a,
-      imaginary: (Math.sqrt(Math.abs(discriminant)) / 2) * a,
+      real: -b / (2 * a),
+      imaginary: Math.abs(Math.sqrt(Math.abs(discriminant)) / (2 * a)),
     }
   }
   return returnRoots
 }
 
+const trimRoots = (roots) => {
+  const { decimalPlaces } = usePreferences()
+  const decimals = decimalPlaces.value
+  if (!roots.isComplex) {
+    return roots.roots.map((num) => Number(num.toFixed(decimals)))
+  } else {
+    return {
+      real: Number(roots.roots[0].real.toFixed(decimals)),
+      imaginary: Number(roots.roots[0].imaginary.toFixed(decimals)),
+    }
+  }
+}
+
 const expString = (number) => {
   if (number == 0) {
     return ''
-  } else if (number == 1) {
-    return 'e^{x}'
-  } else if (number == -1) {
-    return 'e^{-x}'
   } else {
-    return `e^{${number}x}`
+    return `e^{${coefficientString(number)}x}`
   }
 }
 
 const cplxToCos = (cplx) => {
-  let scalar = cplx.imaginary
-  if (scalar == 1) {
-    scalar = ''
-  } else if (scalar == -1) {
-    scalar = '-'
-  }
-  return expString(cplx.real) + `\\cos{${cplx.imaginary == 1 ? '' : cplx.imaginary}x}`
+  return expString(cplx.real) + `\\cos{${coefficientString(cplx.imaginary)}x}`
 }
 
 const cplxToSin = (cplx) => {
-  let scalar = cplx.imaginary
-  if (scalar == 1) {
-    scalar = ''
-  } else if (scalar == -1) {
-    scalar = '-'
-  }
-  return expString(cplx.real) + `\\sin{${scalar}x}`
+  return expString(cplx.real) + `\\sin{${coefficientString(cplx.imaginary)}x}`
 }
 
-export { getCharEquations, getRoots }
+const coefficientString = (coefficient) => {
+  if (coefficient == 1) {
+    return ''
+  } else if (coefficient == -1) {
+    return '-'
+  } else {
+	return coefficient.toString();
+  }
+}
+
+const formatCoefficients = (coefficients) => coefficients.map((e) => (e === '' ? 1 : e))
+
+export { getCharacteristicEquation, getLinearSolutions, getRoots, trimRoots }
