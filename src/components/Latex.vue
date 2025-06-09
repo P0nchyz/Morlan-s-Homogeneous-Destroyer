@@ -27,5 +27,5 @@ watch(() => props.math, async () => {
 </script>
 
 <template>
-  <span ref="mathRoot">$${{ math }}$$</span>
+  <span ref="mathRoot" class="selection:bg-amber-400 selection:text-black">$${{ math }}$$</span>
 </template>

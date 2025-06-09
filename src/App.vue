@@ -11,7 +11,7 @@ import NotationSelector from '@/components/NotationSelector.vue';
 import Latex from './components/Latex.vue';
 import SettingsOverlay from './components/SettingsOverlay.vue';
 
-const { showSettings, dependentVariable, rootVariable} = usePreferences();
+const { showSettings, dependentVariable, rootVariable } = usePreferences();
 
 const coefficients = ref(['', '', '']);
 
@@ -54,8 +54,8 @@ function handleReset() {
       <EquationPreview v-model="coefficients" />
       <div id="buttons" class="flex justify-center gap-32 self-stretch">
         <button @click="handleCalculate"
-          class="text-white bg-onyx hover:brightness-140 hover:cursor-pointer px-5 py-2.5 rounded-lg">Calculate</button>
-        <button @click="handleReset" class="hover:cursor-pointer">Reset</button>
+          class="text-white bg-onyx hover:brightness-140 hover:cursor-pointer active:bg-black px-5 py-2.5 rounded-lg">Calculate</button>
+        <button @click="handleReset" class="hover:bg-gray-200 hover:cursor-pointer active:bg-gray-300 px-5 py-2.5 rounded-lg">Reset</button>
       </div>
     </div>
     <div v-if="linearSolutions.length != 0" id="adv-results" class="flex flex-col border-onyx border-2">

@@ -9,19 +9,25 @@ const selected = ref(false);
 </script>
 
 <template>
-  <div v-if="!selected" @click="selected = true" class="w-12 bg-onyx hover:bg-black hover:cursor-pointer text-white p-3 rounded-full aspect-square">
+  <button v-if="!selected" @click="selected = true" class="w-12 bg-onyx hover:bg-black hover:cursor-pointer text-white p-3 rounded-full aspect-square">
     <Latex :math="getNotation(notation, 1)"/>
-  </div>
+  </button>
   <div v-else class="flex flex-col items-center gap-4 text-gray-600">
-    <span @click="updatePreference('notation', 'lagrange'); selected = false" class="hover:cursor-pointer hover:text-black">
+    <button @click="updatePreference('notation', 'lagrange'); selected = false" class="hover:cursor-pointer hover:text-black">
       <Latex :math="getNotation('lagrange', 1)"/>
-    </span>
-    <span @click="updatePreference('notation', 'leibniz'); selected = false" class="hover:cursor-pointer hover:text-black">
+    </button>
+    <button @click="updatePreference('notation', 'leibniz'); selected = false" class="hover:cursor-pointer hover:text-black">
       <Latex :math="getNotation('leibniz', 1)"/>
-    </span>
-    <span @click="updatePreference('notation', 'newton'); selected = false" class="hover:cursor-pointer hover:text-black">
+    </button>
+    <button @click="updatePreference('notation', 'newton'); selected = false" class="hover:cursor-pointer hover:text-black">
       <Latex :math="getNotation('newton', 1)"/>
-    </span>
+    </button>
     <div @click="selected = false" class="w-12 bg-onyx hover:bg-black hover:cursor-pointer text-white rounded-full aspect-square"></div>
   </div>
 </template>
+
+<style scoped>
+button {
+  user-select: none;
+}
+</style>
