@@ -54,8 +54,8 @@ function handleReset() {
       <EquationPreview v-model="coefficients" />
       <div id="buttons" class="flex justify-center gap-32 self-stretch">
         <button @click="handleCalculate"
-          class="text-white bg-onyx hover:brightness-140 focus:ring-4 focus:ring-blue-800 px-5 py-2.5 rounded-lg">Calculate</button>
-        <button @click="handleReset">Reset</button>
+          class="text-white bg-onyx hover:brightness-140 hover:cursor-pointer px-5 py-2.5 rounded-lg">Calculate</button>
+        <button @click="handleReset" class="hover:cursor-pointer">Reset</button>
       </div>
     </div>
     <div v-if="linearSolutions.length != 0" id="adv-results" class="flex flex-col border-onyx border-2">

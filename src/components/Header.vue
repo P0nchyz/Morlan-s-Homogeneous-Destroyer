@@ -18,7 +18,7 @@ const { updatePreference } = usePreferences();
       <span>Destroyer</span>
     </div>
     <div @click="updatePreference('showSettings', true)">
-      <IconSettings class="fill-black"/>
+      <IconSettings class="fill-onyx hover:fill-black hover:cursor-pointer"/>
     </div>
   </header>
 </template>
