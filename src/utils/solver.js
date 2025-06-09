@@ -1,6 +1,7 @@
 import { usePreferences } from './usePreferences'
 
 const getCharacteristicEquation = (coefficients) => {
+  const rV = usePreferences().rootVariable.value
   coefficients = formatCoefficients(coefficients)
   let retString = ''
   let auxArray = []
@@ -8,7 +9,7 @@ const getCharacteristicEquation = (coefficients) => {
   coefficients.forEach((coefficient, pos) => {
     if (coefficient == 0) return
     if (pos == 0) auxArray.push(coefficient)
-    else auxArray.push(coefficientString(coefficient) + 'r' + (pos == 1 ? '' : '^' + pos))
+    else auxArray.push(coefficientString(coefficient) + rV + (pos == 1 ? '' : '^' + pos))
   })
   auxArray.reverse()
   retString = auxArray.join(' + ')

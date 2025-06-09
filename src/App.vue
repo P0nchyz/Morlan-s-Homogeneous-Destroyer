@@ -11,7 +11,7 @@ import NotationSelector from '@/components/NotationSelector.vue';
 import Latex from './components/Latex.vue';
 import SettingsOverlay from './components/SettingsOverlay.vue';
 
-const { showSettings, dependentVariable} = usePreferences();
+const { showSettings, dependentVariable, rootVariable} = usePreferences();
 
 const coefficients = ref(['', '', '']);
 
@@ -72,8 +72,8 @@ function handleReset() {
         <div>
           <h3 class="font-medium mb-2">Roots</h3>
           <div class="flex justify-around gap-12">
-            <Latex :math="'r_1=' + showRoots[0]" />
-            <Latex :math="'r_2=' + showRoots[1]" />
+            <Latex :math="rootVariable + '_1=' + showRoots[0]" />
+            <Latex :math="rootVariable + '_2=' + showRoots[1]" />
           </div>
         </div>
         <div>

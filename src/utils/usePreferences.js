@@ -5,6 +5,7 @@ const DEFAULT_PREFERENCES = {
   decimalPlaces: 4,
   independentVariable: 'x',
   dependentVariable: 'y',
+  rootVariable: 'm',
   showSettings: false,
 }
 
@@ -81,6 +82,7 @@ export const usePreferences = () => {
     decimalPlaces: computed(() => preferences.value.decimalPlaces),
     independentVariable: computed(() => preferences.value.independentVariable),
     dependentVariable: computed(() => preferences.value.dependentVariable),
+    rootVariable: computed(() => preferences.value.rootVariable),
     showSettings: computed(() => preferences.value.showSettings),
   }
 }

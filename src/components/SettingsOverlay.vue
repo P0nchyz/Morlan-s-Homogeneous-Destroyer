@@ -2,7 +2,7 @@
 import { usePreferences } from '@/utils/usePreferences';
 import { nextTick, ref, watch } from 'vue';
 
-const { updatePreference, notation, decimalPlaces, independentVariable, dependentVariable, showSettings } = usePreferences();
+const { updatePreference, notation, decimalPlaces, independentVariable, dependentVariable, rootVariable, showSettings } = usePreferences();
 
 const isOpen = defineModel();
 const overlayBox = ref(null);
@@ -37,6 +37,11 @@ const handleDependentVariable = (event) => {
   const newValue = event.target.value;
   updatePreference('dependentVariable', newValue);
 }
+
+const handleRootVariable = (event) => {
+  const newValue = event.target.value;
+  updatePreference('rootVariable', newValue);
+}
 </script>
 
 <template>
@@ -70,6 +75,10 @@ const handleDependentVariable = (event) => {
           <div class="flex items-center justify-between">
             <label>Dependent Variable</label>
             <input type="text" @focus="$event.target.select()" :value="dependentVariable" @change="handleDependentVariable" class="border-1 w-12 text-right px-2 rounded-sm">
+          </div>
+          <div class="flex items-center justify-between">
+            <label>Root Variable</label>
+            <input type="text" @focus="$event.target.select()" :value="rootVariable" @change="handleRootVariable" class="border-1 w-12 text-right px-2 rounded-sm">
           </div>
         </div>
       </div>
