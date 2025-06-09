@@ -1,6 +1,10 @@
 <script setup>
+import { usePreferences } from '@/utils/usePreferences';
+
 import IconSettings from '@/components/icons/IconSettings.vue';
 import IconMorlan from './icons/IconMorlan.vue';
+
+const { updatePreference } = usePreferences();
 </script>
 
 <template>
@@ -13,8 +17,8 @@ import IconMorlan from './icons/IconMorlan.vue';
       <span>Homogeneous</span>
       <span>Destroyer</span>
     </div>
-    <div>
-      <IconSettings class="fill-black" />
+    <div @click="updatePreference('showSettings', true)">
+      <IconSettings class="fill-black"/>
     </div>
   </header>
 </template>

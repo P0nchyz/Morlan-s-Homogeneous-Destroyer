@@ -3,6 +3,8 @@ import { computed, ref, warn, watch } from 'vue'
 const DEFAULT_PREFERENCES = {
   notation: 'lagrange',
   decimalPlaces: 4,
+  independentVariable: 'x',
+  showSettings: false
 }
 
 const STORAGE_KEY = 'morlan-preferences'
@@ -74,5 +76,7 @@ export const usePreferences = () => {
 
     notation: computed(() => preferences.value.notation),
     decimalPlaces: computed(() => preferences.value.decimalPlaces),
+	independentVariable: computed(() => preferences.value.independentVariable),
+	showSettings: computed(() => preferences.value.showSettings)
   }
 }

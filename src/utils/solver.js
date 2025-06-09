@@ -106,4 +106,4 @@ const coefficientString = (coefficient) => {
 
 const formatCoefficients = (coefficients) => coefficients.map((e) => (e === '' ? 1 : e))
 
-export { getCharacteristicEquation, getLinearSolutions, getRoots, trimRoots }
+export { getCharacteristicEquation, getLinearSolutions, coefficientString, getRoots, trimRoots }
