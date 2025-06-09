@@ -4,7 +4,8 @@ const DEFAULT_PREFERENCES = {
   notation: 'lagrange',
   decimalPlaces: 4,
   independentVariable: 'x',
-  showSettings: false
+  dependentVariable: 'y',
+  showSettings: false,
 }
 
 const STORAGE_KEY = 'morlan-preferences'
@@ -49,12 +50,14 @@ const updatePreference = (key, value) => {
 }
 
 const getNotation = (notation, degree) => {
+  const iV = preferences.value.independentVariable
+  const dV = preferences.value.dependentVariable
   if (notation == 'leibniz') {
-    return degree == 0 ? 'y' : `\\frac{d${degree == 1 ? '' : '^' + degree}y}{dx}`
+    return degree == 0 ? dV : `\\frac{d${degree == 1 ? '' : '^' + degree}${dV}}{d${iV}}`
   } else if (notation == 'lagrange') {
-    return `y${"'".repeat(degree)}`
+    return `${dV}${"'".repeat(degree)}`
   } else if (notation == 'newton') {
-    return `${degree == 0 ? '' : '\\' + 'd'.repeat(degree) + 'ot'} y`
+    return `${degree == 0 ? '' : '\\' + 'd'.repeat(degree) + 'ot'} ${dV}`
   }
 }
 
@@ -76,7 +79,8 @@ export const usePreferences = () => {
 
     notation: computed(() => preferences.value.notation),
     decimalPlaces: computed(() => preferences.value.decimalPlaces),
-	independentVariable: computed(() => preferences.value.independentVariable),
-	showSettings: computed(() => preferences.value.showSettings)
+    independentVariable: computed(() => preferences.value.independentVariable),
+    dependentVariable: computed(() => preferences.value.dependentVariable),
+    showSettings: computed(() => preferences.value.showSettings),
   }
 }

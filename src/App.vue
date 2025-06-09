@@ -11,7 +11,7 @@ import NotationSelector from '@/components/NotationSelector.vue';
 import Latex from './components/Latex.vue';
 import SettingsOverlay from './components/SettingsOverlay.vue';
 
-const { showSettings } = usePreferences();
+const { showSettings, dependentVariable} = usePreferences();
 
 const coefficients = ref(['', '', '']);
 
@@ -79,8 +79,8 @@ function handleReset() {
         <div>
           <h3 class="font-medium mb-2">Linear Solutions</h3>
           <div class="flex justify-around gap-12">
-            <Latex :math="'y_1=' + linearSolutions[0]" />
-            <Latex :math="'y_2=' + linearSolutions[1]" />
+            <Latex :math="dependentVariable + '_1=' + linearSolutions[0]" />
+            <Latex :math="dependentVariable + '_2=' + linearSolutions[1]" />
           </div>
         </div>
       </div>

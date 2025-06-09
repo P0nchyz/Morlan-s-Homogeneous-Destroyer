@@ -1,9 +1,22 @@
 <script setup>
 import { usePreferences } from '@/utils/usePreferences';
+import { nextTick, ref, watch } from 'vue';
 
-const { updatePreference, notation, decimalPlaces } = usePreferences();
+const { updatePreference, notation, decimalPlaces, independentVariable, dependentVariable, showSettings } = usePreferences();
 
 const isOpen = defineModel();
+const overlayBox = ref(null);
+
+watch(showSettings, async (isOpen) => {
+  if (isOpen) {
+    await nextTick();
+    overlayBox.value?.focus();
+  }
+})
+
+const handleEscape = () => {
+  updatePreference('showSettings', false);
+}
 
 const handleNotation = (event) => {
   const newValue = event.target.value;
@@ -15,11 +28,21 @@ const handleDecimals = (event) => {
   updatePreference('decimalPlaces', newValue);
 }
 
+const handleIndependentVariable = (event) => {
+  const newValue = event.target.value;
+  updatePreference('independentVariable', newValue);
+}
+
+const handleDependentVariable = (event) => {
+  const newValue = event.target.value;
+  updatePreference('dependentVariable', newValue);
+}
 </script>
 
 <template>
   <Transition name="fade">
-    <div v-if="isOpen" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+    <div v-if="isOpen" @keydown.esc="handleEscape" @click.self="handleEscape" tabindex="0" ref="overlayBox"
+      class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
       <div class="bg-white w-120 h-160 p-8 shadow-2xl overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-xl font-semibold">Settings</h2>
@@ -37,7 +60,16 @@ const handleDecimals = (event) => {
           </div>
           <div class="flex items-center justify-between">
             <label>Number of Decimals</label>
-            <input :value="decimalPlaces" @change="handleDecimals" class="border-1 w-12 text-right px-1 rounded-sm">
+            <input type="number" @focus="$event.target.select()" :value="decimalPlaces" @change="handleDecimals"
+              class="border-1 w-12 text-right px-1 rounded-sm">
+          </div>
+          <div class="flex items-center justify-between">
+            <label>Independent Variable</label>
+            <input type="text" @focus="$event.target.select()" :value="independentVariable" @change="handleIndependentVariable" class="border-1 w-12 text-right px-2 rounded-sm">
+          </div>
+          <div class="flex items-center justify-between">
+            <label>Dependent Variable</label>
+            <input type="text" @focus="$event.target.select()" :value="dependentVariable" @change="handleDependentVariable" class="border-1 w-12 text-right px-2 rounded-sm">
           </div>
         </div>
       </div>

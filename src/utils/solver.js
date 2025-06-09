@@ -4,11 +4,11 @@ const getCharacteristicEquation = (coefficients) => {
   coefficients = formatCoefficients(coefficients)
   let retString = ''
   let auxArray = []
-  coefficients.reverse();
+  coefficients.reverse()
   coefficients.forEach((coefficient, pos) => {
     if (coefficient == 0) return
     if (pos == 0) auxArray.push(coefficient)
-    else auxArray.push(coefficientString(coefficient) + 'r' + ((pos == 1) ? '' : '^' + pos))
+    else auxArray.push(coefficientString(coefficient) + 'r' + (pos == 1 ? '' : '^' + pos))
   })
   auxArray.reverse()
   retString = auxArray.join(' + ')
@@ -16,6 +16,7 @@ const getCharacteristicEquation = (coefficients) => {
 }
 
 const getLinearSolutions = (coefficients) => {
+  const iV = usePreferences().independentVariable.value
   coefficients = formatCoefficients(coefficients)
   const roots = getRoots(coefficients)
   const trimmedRoots = trimRoots(roots)
@@ -23,7 +24,7 @@ const getLinearSolutions = (coefficients) => {
   if (!roots.isComplex) {
     return [
       expString(trimmedRoots[0]),
-      trimmedRoots.length == 2 ? expString(trimmedRoots[1]) : 'x' + expString(trimmedRoots[0]),
+      trimmedRoots.length == 2 ? expString(trimmedRoots[1]) : iV + expString(trimmedRoots[0]),
     ]
   } else {
     return [cplxToCos(trimmedRoots), cplxToSin(trimmedRoots)]
@@ -79,19 +80,22 @@ const trimRoots = (roots) => {
 }
 
 const expString = (number) => {
+  const iV = usePreferences().independentVariable.value
   if (number == 0) {
     return ''
   } else {
-    return `e^{${coefficientString(number)}x}`
+    return `e^{${coefficientString(number)}${iV}}`
   }
 }
 
 const cplxToCos = (cplx) => {
-  return expString(cplx.real) + `\\cos{${coefficientString(cplx.imaginary)}x}`
+  const iV = usePreferences().independentVariable.value
+  return expString(cplx.real) + `\\cos{${coefficientString(cplx.imaginary)}${iV}}`
 }
 
 const cplxToSin = (cplx) => {
-  return expString(cplx.real) + `\\sin{${coefficientString(cplx.imaginary)}x}`
+  const iV = usePreferences().independentVariable.value
+  return expString(cplx.real) + `\\sin{${coefficientString(cplx.imaginary)}${iV}}`
 }
 
 const coefficientString = (coefficient) => {
