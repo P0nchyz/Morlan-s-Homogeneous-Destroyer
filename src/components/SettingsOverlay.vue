@@ -2,7 +2,7 @@
 import { usePreferences } from '@/utils/usePreferences';
 import { nextTick, ref, watch } from 'vue';
 
-const { updatePreference, notation, decimalPlaces, independentVariable, dependentVariable, rootVariable, showSettings } = usePreferences();
+const { updatePreference, resetPreferences, notation, decimalPlaces, independentVariable, dependentVariable, rootVariable, showSettings } = usePreferences();
 
 const isOpen = defineModel();
 const overlayBox = ref(null);
@@ -48,7 +48,7 @@ const handleRootVariable = (event) => {
   <Transition name="fade">
     <div v-if="isOpen" @keydown.esc="handleEscape" @click.self="handleEscape" tabindex="0" ref="overlayBox"
       class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-      <div class="bg-white w-120 h-160 p-8 shadow-2xl overflow-y-auto">
+      <div class="flex flex-col justify-baseline bg-white w-120 h-160 p-8 shadow-2xl overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-xl font-semibold">Settings</h2>
           <button @click="updatePreference('showSettings', false)" class="text-gray-400 hover:text-gray-900">✕</button>
@@ -70,16 +70,23 @@ const handleRootVariable = (event) => {
           </div>
           <div class="flex items-center justify-between">
             <label>Independent Variable</label>
-            <input type="text" @focus="$event.target.select()" :value="independentVariable" @change="handleIndependentVariable" class="border-1 w-12 text-right px-2 rounded-sm">
+            <input type="text" @focus="$event.target.select()" :value="independentVariable"
+              @change="handleIndependentVariable" class="border-1 w-12 text-right px-2 rounded-sm">
           </div>
           <div class="flex items-center justify-between">
             <label>Dependent Variable</label>
-            <input type="text" @focus="$event.target.select()" :value="dependentVariable" @change="handleDependentVariable" class="border-1 w-12 text-right px-2 rounded-sm">
+            <input type="text" @focus="$event.target.select()" :value="dependentVariable"
+              @change="handleDependentVariable" class="border-1 w-12 text-right px-2 rounded-sm">
           </div>
           <div class="flex items-center justify-between">
             <label>Root Variable</label>
-            <input type="text" @focus="$event.target.select()" :value="rootVariable" @change="handleRootVariable" class="border-1 w-12 text-right px-2 rounded-sm">
+            <input type="text" @focus="$event.target.select()" :value="rootVariable" @change="handleRootVariable"
+              class="border-1 w-12 text-right px-2 rounded-sm">
           </div>
+        </div>
+        <div @click="resetPreferences"
+          class="mt-auto w-fit text-white bg-onyx hover:brightness-140 focus:ring-4 focus:ring-blue-800 px-5 py-2.5 rounded-lg">
+          <button>Restore</button>
         </div>
       </div>
     </div>
