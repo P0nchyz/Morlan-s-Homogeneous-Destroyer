@@ -2,7 +2,17 @@ import { usePreferences } from './usePreferences'
 
 const getCharacteristicEquation = (coefficients) => {
   coefficients = formatCoefficients(coefficients)
-  return `${coefficients[2]}r^2 + ${coefficients[1]}r + ${coefficients[0]} = 0`
+  let retString = ''
+  let auxArray = []
+  coefficients.reverse();
+  coefficients.forEach((coefficient, pos) => {
+    if (coefficient == 0) return
+    if (pos == 0) auxArray.push(coefficient)
+    else auxArray.push(coefficientString(coefficient) + 'r' + ((pos == 1) ? '' : '^' + pos))
+  })
+  auxArray.reverse()
+  retString = auxArray.join(' + ')
+  return retString + ' = 0'
 }
 
 const getLinearSolutions = (coefficients) => {
@@ -90,7 +100,7 @@ const coefficientString = (coefficient) => {
   } else if (coefficient == -1) {
     return '-'
   } else {
-	return coefficient.toString();
+    return coefficient.toString()
   }
 }
 
